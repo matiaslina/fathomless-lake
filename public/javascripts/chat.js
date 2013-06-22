@@ -2,7 +2,6 @@ window.onload = function () {
     var messages = [];
     var socket = io.connect(window.location.hostname);
     var field = document.getElementById("field");
-    var sendButton = document.getElementById("send");
     var content = document.getElementById("content");
     var name = document.getElementById ('name');
  
@@ -35,11 +34,7 @@ window.onload = function () {
         }
     };
  
-    sendButton.onclick = function() {
-        send();
-    };
-
-    enterKey = function(e) {
+    var enterKey = function(e) {
         if (e.keyCode == 13) {
             send();
             return false;
