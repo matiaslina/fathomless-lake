@@ -22,6 +22,10 @@ window.onload = function () {
         }
     });
 
+    socket.on('change name', function (data) {
+        name.value = data.name;
+    });
+
     function send () {
         var text = field.value;
         var author_v = name.value;

@@ -11,6 +11,7 @@ var express = require('express')
 
 
 var app = express();
+var users = [];
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -48,8 +49,18 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('message', { message: 'Welcome to the chat' });
+    var new_user = "user"+users.length;
+    users.push ({ name: new_user });
+    socket.emit('message', { message: new_user + ', Welcome to the chat' });
+    socket.emit('change name', {name: new_user});
+    socket.broadcast.emit("message", { message: new_user + " is connected"});
     socket.on ('send', function (data) {
-        io.sockets.emit ('message', data);
+        if (data.message != "/who")
+            io.sockets.emit ('message', data);
+        else {
+            socket.emit ('message', { message: "Hay " + users.length + " usuarios conectados."});
+        }
     });
+
 });
+
