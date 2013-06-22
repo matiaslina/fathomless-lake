@@ -3,9 +3,22 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src='/javascripts/chat.js'> </script>
+    <script src='/socket.io/lib/socket.io.js'> </script>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+
+    <div class="controls">
+        <h3>Name:</h3><input type="text" id="name"/>
+        <br>
+        <input id="field" />
+        <input id="send" type="button" value="send">
+
+        <div id="content">
+        </div>
+
+    </div>
   </body>
 </html>
