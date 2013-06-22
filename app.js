@@ -23,7 +23,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.use(express.session({secret: 'clavesupersecretaquenadiesabe'}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -32,8 +32,9 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/code', routes.index);
+app.get("/", routes.index );
+app.post('/register', routes.new_username);
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){
@@ -49,20 +50,24 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-    var new_user = "user"+users.length;
-    users.push ({ name: new_user });
 
-    socket.emit('message', { message: new_user + ', Welcome to the chat' });
-    
-    socket.emit('change name', {name: new_user});
+    socket.on ('conn', function (data) {
+        socket.emit('message', { 
+            message: data.username + ', Welcome to the chat' 
+        });
 
-    socket.broadcast.emit("message", { message: new_user + " is connected"});
+        socket.broadcast.emit("message", { 
+            message: data.username + " is connected"
+        });
 
+    });
     socket.on ('send', function (data) {
         if (data.message != "/clear")
             io.sockets.emit ('message', data);
         else {
-            socket.emit ('message', { message: "Hay " + users.length + " usuarios conectados. Limpiando!"});
+            socket.emit ('message', { 
+                message: "Hay " + users.length + " usuarios conectados. Limpiando!"
+            });
             users = [];
         }
     });

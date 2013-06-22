@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href="/stylesheets/highlighter/SyntaxHighlighter.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+    <script src='/socket.io/socket.io.js'> </script>
+    <script src='/javascripts/chat.js'> </script>
+
+
+  </head>
+  <body>
+    <p>Ponga su nombre de usuario:</p>
+    <form action="/register" method="post">
+        <input name="new_username" />
+        <input type="submit" value="Loguearse">
+    </form>
+  </body>
+</html>

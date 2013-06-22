@@ -4,6 +4,10 @@ window.onload = function () {
     var field = document.getElementById("field");
     var content = document.getElementById("content");
     var name = document.getElementById ('name');
+    
+    socket.emit ('conn', {
+        username: name.value
+    });
  
     socket.on('message', function (data) {
         if(data.message) {
@@ -20,10 +24,6 @@ window.onload = function () {
         } else {
             console.log("There is a problem:", data);
         }
-    });
-
-    socket.on('change name', function (data) {
-        name.value = data.name;
     });
 
     function send () {
