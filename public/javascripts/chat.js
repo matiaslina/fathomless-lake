@@ -16,6 +16,7 @@ window.onload = function () {
                 html += messages[i] + '<br />';
             }
             content.innerHTML = html;
+            content.scrollTop = content.scrollHeight;
         } else {
             console.log("There is a problem:", data);
         }

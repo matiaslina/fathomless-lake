@@ -3,22 +3,121 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href="/stylesheets/highlighter/SyntaxHighlighter.css"/>
     <script src='/socket.io/socket.io.js'> </script>
     <script src='/javascripts/chat.js'> </script>
+    <script language="javascript" src="/javascripts/highlighter/shCore.js"></script>
+    <script language="javascript" src="/javascripts/highlighter/shBrushCpp.js"></script>
+    <script language="javascript" src="/javascripts/highlighter/shBrushJava.js"></script>
+    <style>
+        .controls {
+            width: 100%;
+        }
+
+        #content {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            margin: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+        }
+        #chat-control {
+        }
+        #chat-control > * {
+            display: inline-block;
+        }
+        #name {
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 10%;
+        }
+        #field {
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 88%;
+        }
+
+    </style>
 
   </head>
   <body>
-      <h1><%= title %></h1>
-      <p>Welcome to <%= title %></p>
 
       <div class="controls">
-          <h3>Name:</h3><input type="text" id="name"/>
-          <br>
-          <input id="field" />
 
           <div id="content">
           </div>
+          <div id="chat-control">
+              <input id="name"/>
+              <input id="field"/>
+          </div>
+
+          <div id="code-view">
+              <pre name="code" class="cpp">
+/* http://codeforces.com/problemset/problem/318/A 
+ * @author: Matias Linares
+ */
+
+#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define SCAN_FALIURE 1
+#define INPUT_FALIURE 2
+
+int
+main (void)
+{
+    unsigned int n = 0;
+    unsigned int k = 0;
+    int scanf_result = 0;
+
+    scanf_result = scanf("%u %u",&n, &k);
+    if (scanf_result != 2)
+    {
+        fprintf (stderr ,"Scan Faliure\nError Code %i\n", scanf_result);
+        return (SCAN_FALIURE);
+    }
+
+
+    if (n &lt; k)
+    {
+        fprintf(stderr, "PROBLEMA :P\n"
+                        "Hay que tener el primer elemento"
+                        " mas grande que el segundo\n");
+        return (INPUT_FALIURE);
+    }
+    
+    /* Una vez que pasan los casos estos, podemos empezar a 
+     * hacer el resto */
+
+    unsigned int half = n/2;
+    if ((n % 2) == 1)
+        half--;
+    if (k &lt;= half)
+        fprintf(stdout, "%u\n", (2*k)-1);
+    else 
+    {
+        k = k - half;
+        fprintf(stdout, "%u\n", (2*k));
+    }
+
+    return EXIT_SUCCESS;
+}
+              </pre>
+
+          </div>
 
       </div>
+    <script language="javascript">
+        dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';
+        dp.SyntaxHighlighter.HighlightAll ('code');
+    </script>
   </body>
 </html>
