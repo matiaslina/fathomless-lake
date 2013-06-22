@@ -21,24 +21,4 @@ window.onload = function () {
         }
     });
 
-    function send () {
-        var text = field.value;
-        var author_v = name.value;
-        if (author_v == "")
-            alert ("Debe poner su nombre -_-");
-        else {
-            if (text != "")
-                socket.emit('send', { message: text, author: author_v });
-
-            field.value = "";
-        }
-    };
- 
-    var enterKey = function(e) {
-        if (e.keyCode == 13) {
-            send();
-            return false;
-        }
-        return true;
-    };
 }
