@@ -57,11 +57,7 @@ window.onload = function () {
         return true;
     };
     
-    new_problem_url.onkeypress = function (e) {
-        if (e.keyCode == 13) {
-            socket.emit('submit problem', {url: new_problem_url.value});
-            return false;
-        }
-        return true;
+    submit_problem.onclick = function () {
+        socket.emit('submit problem', {url: new_problem_url.value});
     };
 }
