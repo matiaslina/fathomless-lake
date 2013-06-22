@@ -21,8 +21,8 @@ window.onload = function () {
             console.log("There is a problem:", data);
         }
     });
- 
-    sendButton.onclick = function() {
+
+    function send () {
         var text = field.value;
         var author_v = name.value;
         if (author_v == "")
@@ -30,6 +30,20 @@ window.onload = function () {
         else {
             if (text != "")
                 socket.emit('send', { message: text, author: author_v });
+
+            field.value = "";
         }
+    };
+ 
+    sendButton.onclick = function() {
+        send();
+    };
+
+    enterKey = function(e) {
+        if (e.keyCode == 13) {
+            send();
+            return false;
+        }
+        return true;
     };
 }
