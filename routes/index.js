@@ -2,12 +2,14 @@
 /*
  * GET home page.
  */
+var http = require ('http');
 
 exports.index = function(req, res){
     if (req.session.logged) {
         res.render('index', { 
             title: 'Fanthomless Lake Dev',
-            user: req.session.username
+            user: req.session.username,
+            enunciado: ""
         });
     } else {
         res.render ("username", { title: "Login"});

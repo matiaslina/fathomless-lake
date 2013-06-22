@@ -4,6 +4,8 @@ window.onload = function () {
     var field = document.getElementById("field");
     var content = document.getElementById("content");
     var name = document.getElementById ('name');
+    var new_problem_url = document.getElementById('new_problem');
+    var codeforces = document.getElementById('codeforces');
     
     socket.emit ('conn', {
         username: name.value
@@ -25,6 +27,14 @@ window.onload = function () {
             console.log("There is a problem:", data);
         }
     });
+    
+    socket.on ('new problem', function (data) {
+        if (data.url != undefined) {
+            new_problem_url.value = data.url;
+        }
+        if (data.problem != undefined)
+            codeforces.innerHTML = data.problem;
+    });
 
     function send () {
         var text = field.value;
@@ -42,6 +52,14 @@ window.onload = function () {
     field.onkeypress = function(e) {
         if (e.keyCode == 13) {
             send();
+            return false;
+        }
+        return true;
+    };
+    
+    new_problem_url.onkeypress = function (e) {
+        if (e.keyCode == 13) {
+            socket.emit('submit problem', {url: new_problem_url.value});
             return false;
         }
         return true;

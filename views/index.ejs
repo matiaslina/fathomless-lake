@@ -40,13 +40,23 @@
         }
         
         .controls {
+        
             width: 82%;
             padding: 9%;
     
             padding-top: 1%;
             padding-bottom:2%;
         }
-
+        #enunciado {
+            margin-top: 15px;
+            background-color: #eee;
+            padding: 10px;
+        }
+        
+        #new_problem {
+            width: 99%;
+        }
+        
         #content {
             background-color: #eee;
             width: 100%;
@@ -63,6 +73,7 @@
             word-wrap: break-word;
         }
         #chat-control {
+            background-color: #eee;
         }
         #chat-control > * {
             display: inline-block;
@@ -97,7 +108,18 @@
               <input id="name" value="<%= user %>"/>
               <input id="field"/>
           </div>
-
+          
+          <div id="enunciado">
+          
+            <div id="codeforces">
+            </div>
+            <span><u><i>URL</i></u></span><input id="new_problem">
+          </div>
+        
+        
+        
+        
+        
           <div id="code-view">
               <pre name="code" class="cpp">
 /* http://codeforces.com/problemset/problem/318/A 

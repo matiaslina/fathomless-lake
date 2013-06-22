@@ -7,12 +7,12 @@ var express = require('express')
     , routes = require('./routes')
     , user = require('./routes/user')
     , http = require('http')
-    , path = require('path');
+    , path = require('path')
+    , request = require ('request');
 
 
 var app = express();
-var users = [];
-
+var main_problem = {};
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('socket_port', 3001);
@@ -59,6 +59,10 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.emit("message", { 
             message: data.username + " is connected"
         });
+        
+        if (main_problem != {}) {
+            socket.emit ('new problem', {problem: main_problem.html, url: main_problem.url});
+        }
 
     });
     socket.on ('send', function (data) {
@@ -70,6 +74,28 @@ io.sockets.on('connection', function (socket) {
             });
             users = [];
         }
+    });
+    
+    socket.on ('submit problem', function (data) {
+        request (data.url, function (error, res, body) {
+            if (! error) {
+                var pr = "";
+                var inicio = '<div class="ttypography">';
+                body = body.split('\n');
+                for (i = 0; i < body.length; i++) {
+                    console.log (body[1]);
+                    if (body[i].indexOf(inicio) == 0){
+                        pr = body[i];
+                        io.sockets.emit ("new problem", { problem: pr})
+                        main_problem = {
+                            url: data.url,
+                            html: pr
+                        };
+                        break;
+                    }
+                }
+            }
+        });
     });
 
 });
