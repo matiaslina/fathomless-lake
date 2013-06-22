@@ -8,6 +8,9 @@ window.onload = function () {
  
     socket.on('message', function (data) {
         if(data.message) {
+            if (data.author == undefined) {
+                data.author = "Server";
+            }
             messages.push(data.author + ": " + data.message);
             var html = '';
             for(var i=0; i<messages.length; i++) {
