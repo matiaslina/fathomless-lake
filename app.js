@@ -59,10 +59,11 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit("message", { message: new_user + " is connected"});
 
     socket.on ('send', function (data) {
-        if (data.message != "/who")
+        if (data.message != "/clear")
             io.sockets.emit ('message', data);
         else {
-            socket.emit ('message', { message: "Hay " + users.length + " usuarios conectados."});
+            socket.emit ('message', { message: "Hay " + users.length + " usuarios conectados. Limpiando!"});
+            users = [];
         }
     });
 
