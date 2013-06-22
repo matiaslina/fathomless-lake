@@ -25,6 +25,9 @@ window.onload = function () {
     sendButton.onclick = function() {
         var text = field.value;
         var author_v = name.value;
-        socket.emit('send', { message: text, author: author_v });
+        if (author_v == undefined)
+            alert ("Debe poner su nombre -_-");
+        if (text != "")
+            socket.emit('send', { message: text, author: author_v });
     };
 }
