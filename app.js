@@ -40,6 +40,13 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 var io = require("socket.io").listen(server);
+
+// assuming io is the Socket.IO server object
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 io.sockets.on('connection', function (socket) {
     socket.emit('message', { message: 'Welcome to the chat' });
     socket.on ('send', function (data) {
