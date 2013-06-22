@@ -51,9 +51,13 @@ io.configure(function () {
 io.sockets.on('connection', function (socket) {
     var new_user = "user"+users.length;
     users.push ({ name: new_user });
+
     socket.emit('message', { message: new_user + ', Welcome to the chat' });
+    
     socket.emit('change name', {name: new_user});
+
     socket.broadcast.emit("message", { message: new_user + " is connected"});
+
     socket.on ('send', function (data) {
         if (data.message != "/who")
             io.sockets.emit ('message', data);

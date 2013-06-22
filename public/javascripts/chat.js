@@ -10,7 +10,7 @@ window.onload = function () {
             if (data.author == undefined) {
                 data.author = "Server";
             }
-            messages.push(data.author + ": " + data.message);
+            messages.push("<b>" + data.author + ":</b> " + data.message);
             var html = '';
             for(var i=0; i<messages.length; i++) {
                 html += messages[i] + '<br />';
