@@ -37,10 +37,18 @@ header h1 {
     padding-top: 1%;
     padding-bottom:2%;
 }
+
+#chat {
+    background-color: #eee;
+    border-radius: 8px;
+    padding: 1px;
+}
+
 #enunciado {
     margin-top: 15px;
     background-color: #eee;
     padding: 10px;
+    border-radius: 8px;
 }
 
 #new_problem {
@@ -49,9 +57,8 @@ header h1 {
 
 #content {
     background-color: #eee;
-    width: 100%;
+    width: auto;
     height: 200px;
-    border: 1px solid #aaa;
     border-radius: 3px;
     margin: 0;
     overflow-y: auto;
@@ -61,9 +68,12 @@ header h1 {
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
+    padding: 8px !important;
 }
 #chat-control {
     background-color: #eee;
+    border-radius: 8px;
+    margin: 1px;
 }
 #chat-control > * {
     display: inline-block;
@@ -81,5 +91,11 @@ header h1 {
 
 #code-view * {
     font-family: "Droid Sans Mono", monospace;
+}
+
+.dp-highlighter {
+    width: 100% !important;
+
+    border-radius: 8px;
 }
 

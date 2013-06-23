@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href="/stylesheets/highlighter/SyntaxHighlighter.css"/>
-    <link rel='stylesheet' href='/stylesheets/codeforces.css' />
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-    <script src='/socket.io/socket.io.js'> </script>
-    <script src='/javascripts/chat.js'> </script>
-    <script language="javascript" src="/javascripts/highlighter/shCore.js"></script>
-    <script language="javascript" src="/javascripts/highlighter/shBrushCpp.js"></script>
-    <script language="javascript" src="/javascripts/highlighter/shBrushJava.js"></script>
+    <head>
+        <title><%= title %></title>
+        <link rel='stylesheet' href="/stylesheets/highlighter/SyntaxHighlighter.css"/>
+        <link rel='stylesheet' href='/stylesheets/codeforces.css' />
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+        <script src='/socket.io/socket.io.js'> </script>
+        <script src='/javascripts/chat.js'> </script>
+        <script language="javascript" src="/javascripts/highlighter/shCore.js"></script>
+        <script language="javascript" src="/javascripts/highlighter/shBrushCpp.js"></script>
+        <script language="javascript" src="/javascripts/highlighter/shBrushJava.js"></script>
 
-  </head>
-  <body>
-    <header>
-        <h1>Fathomless Lake Development</h1>
-    </header>
-      <div class="controls">
+    </head>
+    <body>
+        <header>
+                <h1>Fathomless Lake Development</h1>
+        </header>
+            <div class="controls">
 
-          <div id="content">
-          </div>
-          <div id="chat-control">
-              <input id="name" value="<%= user %>"/>
-              <input id="field"/>
-          </div>
-          
-          <div id="enunciado">
-          
-            <div id="codeforces">
-            </div>
-            <span><u><i>URL</i></u></span>
-            <input id="new_problem">
-            <input type="button" id="submit_problem" value="Buscar">
-          </div>
-        
-        
-        
-        
-        
-          <div id="code-view">
-              <pre name="code" class="cpp">
+                <div id="chat">
+                    <div id="content">
+                    </div>
+                    <div id="chat-control">
+                        <input id="name" value="<%= user %>"/>
+                        <input id="field"/>
+                    </div>
+                </div>
+
+                <div id="enunciado">
+                    <h2><u><i>Problema</i></u></h2>
+
+                    <div id="codeforces">
+                    </div>
+                    <span><u><i>URL</i></u></span>
+                    <input id="new_problem">
+                    <input type="button" id="submit_problem" value="Buscar">
+                </div>
+
+
+
+
+
+                <div id="code-view">
+                    <pre name="code" class="cpp">
 /* http://codeforces.com/problemset/problem/318/A 
  * @author: Matias Linares
  */
@@ -56,50 +59,50 @@
 int
 main (void)
 {
-    unsigned int n = 0;
-    unsigned int k = 0;
-    int scanf_result = 0;
+        unsigned int n = 0;
+        unsigned int k = 0;
+        int scanf_result = 0;
 
-    scanf_result = scanf("%u %u",&n, &k);
-    if (scanf_result != 2)
-    {
-        fprintf (stderr ,"Scan Faliure\nError Code %i\n", scanf_result);
-        return (SCAN_FALIURE);
-    }
+        scanf_result = scanf("%u %u",&n, &k);
+        if (scanf_result != 2)
+        {
+                fprintf (stderr ,"Scan Faliure\nError Code %i\n", scanf_result);
+                return (SCAN_FALIURE);
+        }
 
 
-    if (n &lt; k)
-    {
-        fprintf(stderr, "PROBLEMA :P\n"
-                        "Hay que tener el primer elemento"
-                        " mas grande que el segundo\n");
-        return (INPUT_FALIURE);
-    }
-    
-    /* Una vez que pasan los casos estos, podemos empezar a 
-     * hacer el resto */
+        if (n &lt; k)
+        {
+                fprintf(stderr, "PROBLEMA :P\n"
+                                                "Hay que tener el primer elemento"
+                                                " mas grande que el segundo\n");
+                return (INPUT_FALIURE);
+        }
 
-    unsigned int half = n/2;
-    if ((n % 2) == 1)
-        half--;
-    if (k &lt;= half)
-        fprintf(stdout, "%u\n", (2*k)-1);
-    else 
-    {
-        k = k - half;
-        fprintf(stdout, "%u\n", (2*k));
-    }
+        /* Una vez que pasan los casos estos, podemos empezar a 
+         * hacer el resto */
 
-    return EXIT_SUCCESS;
+        unsigned int half = n/2;
+        if ((n % 2) == 1)
+                half--;
+        if (k &lt;= half)
+                fprintf(stdout, "%u\n", (2*k)-1);
+        else 
+        {
+                k = k - half;
+                fprintf(stdout, "%u\n", (2*k));
+        }
+
+        return EXIT_SUCCESS;
 }
-              </pre>
+                </pre>
 
-          </div>
+            </div>
 
-      </div>
-    <script language="javascript">
-        dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';
-        dp.SyntaxHighlighter.HighlightAll ('code');
-    </script>
-  </body>
+        </div>
+        <script language="javascript">
+            dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';
+            dp.SyntaxHighlighter.HighlightAll ('code');
+        </script>
+    </body>
 </html>
