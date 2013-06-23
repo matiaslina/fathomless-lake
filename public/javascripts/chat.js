@@ -39,7 +39,7 @@ window.onload = function () {
     });
     
     socket.on ('new code', function (data) {
-        code_view.innerHTML = '<pre id="code_pre" name="code" class="cpp"></pre><a href="/new_code" target="blank" style="margin: 7px;">Change the code!</a>';
+        code_view.innerHTML = '<h2><u><i>Code</i></u></h2><pre id="code_pre" name="code" class="cpp"></pre><a href="/new_code" target="blank" style="margin: 7px;">Change the code!</a>';
         var code_pre = document.getElementById('code_pre');
         code_pre.innerHTML = data.code;
         dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';

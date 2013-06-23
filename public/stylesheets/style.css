@@ -1,5 +1,8 @@
 a {
-  color: #00B7FF;
+  color: #0C3566;
+  font-style: none;
+  margin: 1px;
+  font-weight: bold;
 }
 
 html, body {
@@ -87,6 +90,13 @@ header h1 {
     margin-left: 0px;
     margin-right: 0px;
     width: 88%;
+}
+
+#code-view {
+    margin-top: 15px;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 8px;
 }
 
 #code-view * {
