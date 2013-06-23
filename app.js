@@ -13,6 +13,14 @@ var express = require('express')
 
 var app = express();
 var main_problem = {};
+var welcome_message = undefined;
+var commands = [
+    "/clear",
+    "/who",
+    "/welcome",
+    "/nowelcome"    
+];
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('socket_port', 3001);
@@ -47,6 +55,7 @@ var io = require("socket.io").listen(server);
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
+  io.set ('log level', 1);
 });
 
 io.sockets.on('connection', function (socket) {
@@ -61,18 +70,33 @@ io.sockets.on('connection', function (socket) {
         });
         
         if (main_problem != {}) {
-            socket.emit ('new problem', {problem: main_problem.html, url: main_problem.url});
+            socket.emit ('new problem', {
+                problem: main_problem.html, 
+                url: main_problem.url
+            });
+        }
+        console.log ("Welcome message: " + welcome_message);
+        
+        if (welcome_message != undefined) {
+            socket.emit ('message', {
+                author: "Message of the day",
+                message: welcome_message
+            });
         }
 
     });
     socket.on ('send', function (data) {
-        if (data.message != "/clear")
+        var com;
+        if ((com = is_command (data.message)) == false)
             io.sockets.emit ('message', data);
         else {
-            socket.emit ('message', { 
-                message: "Hay " + users.length + " usuarios conectados. Limpiando!"
+            var ret = run (com[0], com[1]);
+            if (ret.type == "welcome message") {
+                welcome_message = ret.args;
+            }
+            socket.emit ('message', {
+                message: "Welcome message set to: " + ret.args
             });
-            users = [];
         }
     });
     
@@ -97,6 +121,33 @@ io.sockets.on('connection', function (socket) {
             }
         });
     });
-
 });
 
+var is_command = function (text) {
+    var aux = text.split(" ");
+    if (aux[0] == "")
+        return false;
+    for (i in commands) {
+        if (commands[i] == aux[0]) {
+            var com = aux.splice (0,1);
+            return [com, aux];
+        }
+    }
+    return false;
+};
+
+var run = function (command, args) {
+    /* Get the args all joins */
+    args = args.join (" ");
+    if (command == "/welcome") {
+        return {
+            type: "welcome message",
+            args: args
+        };
+    } else if (command == "/nowelcome") {
+        return {
+            type: "welcome message",
+            args: undefined
+        };
+    }
+};
