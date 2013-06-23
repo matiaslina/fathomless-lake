@@ -6,6 +6,8 @@ window.onload = function () {
     var name = document.getElementById ('name');
     var new_problem_url = document.getElementById('new_problem');
     var codeforces = document.getElementById('codeforces');
+    var code_view = document.getElementById('code-view');
+    
     
     socket.emit ('conn', {
         username: name.value
@@ -34,6 +36,14 @@ window.onload = function () {
         }
         if (data.problem != undefined)
             codeforces.innerHTML = data.problem;
+    });
+    
+    socket.on ('new code', function (data) {
+        code_view.innerHTML = '<pre id="code_pre" name="code" class="cpp"></pre>';
+        var code_pre = document.getElementById('code_pre');
+        code_pre.innerHTML = data.code;
+        dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';
+        dp.SyntaxHighlighter.HighlightAll ('code');
     });
 
     function send () {

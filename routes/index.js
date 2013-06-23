@@ -24,3 +24,7 @@ exports.new_username = function (req, res) {
     } 
     res.redirect("/");
 }
+
+exports.code_submit = function(req, res){
+    res.render ("code", {});
+};

@@ -5,7 +5,7 @@
 
 var express = require('express')
     , routes = require('./routes')
-    , user = require('./routes/user')
+    , code = require ('./code')
     , http = require('http')
     , path = require('path')
     , request = require ('request');
@@ -43,6 +43,7 @@ if ('development' == app.get('env')) {
 app.get('/code', routes.index);
 app.get("/", routes.index );
 app.post('/register', routes.new_username);
+app.get ('/new_code', routes.code_submit);
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){
@@ -119,6 +120,16 @@ io.sockets.on('connection', function (socket) {
                     }
                 }
             }
+        });
+    });
+    
+    /* When someone submit a new code */
+    socket.on ('code submitted', function (data) {
+        code.Code.setCode (data.code);
+        console.log ("Code -> " + data.code);
+        console.log ("code setted -> " + code.Code.getCode());
+        io.sockets.emit ('new code', {
+            code: code.Code.getCode()
         });
     });
 });
