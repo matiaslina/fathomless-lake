@@ -84,6 +84,10 @@ io.sockets.on('connection', function (socket) {
                 message: welcome_message
             });
         }
+        
+        socket.emit ('new code', {
+            code: code.Code.getCode()
+        });
 
     });
     socket.on ('send', function (data) {
