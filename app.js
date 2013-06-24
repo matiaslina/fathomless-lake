@@ -5,7 +5,8 @@
 
 var express = require('express')
     , routes = require('./routes')
-    , code = require ('./code')
+    , code = require ('./libs/code')
+    , commands = require ('./libs/commands')
     , http = require('http')
     , path = require('path')
     , request = require ('request');
@@ -14,12 +15,7 @@ var express = require('express')
 var app = express();
 var main_problem = {};
 var welcome_message = undefined;
-var commands = [
-    "/clear",
-    "/who",
-    "/welcome",
-    "/nowelcome"    
-];
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -92,16 +88,19 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on ('send', function (data) {
         var com;
-        if ((com = is_command (data.message)) == false)
+        if ((com = commands.isCommand (data.message)) == false)
             io.sockets.emit ('message', data);
         else {
-            var ret = run (com[0], com[1]);
-            if (ret.type == "welcome message") {
+            var ret = commands.run (com[0], com[1]);
+            if (ret.type == commands.WELCOME) {
                 welcome_message = ret.args;
             }
-            socket.emit ('message', {
-                message: "Welcome message set to: " + ret.args
-            });
+            if (ret.emit) {
+                socket.emit ('message', {
+                    author: data.author,
+                    message: ret.args
+                });
+            }
         }
     });
     
@@ -137,32 +136,3 @@ io.sockets.on('connection', function (socket) {
         });
     });
 });
-
-var is_command = function (text) {
-    var aux = text.split(" ");
-    if (aux[0] == "")
-        return false;
-    for (i in commands) {
-        if (commands[i] == aux[0]) {
-            var com = aux.splice (0,1);
-            return [com, aux];
-        }
-    }
-    return false;
-};
-
-var run = function (command, args) {
-    /* Get the args all joins */
-    args = args.join (" ");
-    if (command == "/welcome") {
-        return {
-            type: "welcome message",
-            args: args
-        };
-    } else if (command == "/nowelcome") {
-        return {
-            type: "welcome message",
-            args: undefined
-        };
-    }
-};
