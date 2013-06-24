@@ -10,7 +10,7 @@ var commands = [
 var WELCOME = "welcome message";
 var EMIT = "emit";
 
-function _get_image_str (url) {
+function _get_image_href (url) {
     return '<a href="'+url+'"><img class="chat-img" src='+url+' alt="" /></a>';
 };
 
@@ -51,7 +51,7 @@ var run = function (command, args) {
         var url = args[0];
         return {
             type: "emit",
-            args: _get_img_url(url),
+            args: _get_image_href(url),
             emit: true
         };
     } else if (command == "/shout") {
