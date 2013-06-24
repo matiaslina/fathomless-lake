@@ -4,7 +4,9 @@ var commands = [
     "/welcome",
     "/nowelcome",
     "/img",
-    "/shout"    
+    "/shout",
+    "/?",
+    "/help"
 ];
 
 var WELCOME = "welcome message";
@@ -18,6 +20,15 @@ function _get_shout (str) {
     return '<h2 style="color: #AA0606;">' + str + '</h2>';
 };
 
+var usage = function () {
+    return "The following commands are available: </br>" +
+           "<i>/?, /help</i> : print this info </br>" +
+           "<i>/shout [string]</i> : says something louder </br>" +
+           "<i>/img [url]</i> : prints an image into the chat </br>" +
+           "<i>/welcome</i> : sets a welcome message </br>" +
+           "<i>/nowelcome</i> : unset the welcome usage";
+            
+};
 
 var is_command = function (text) {
     var aux = text.split(" ");
@@ -61,13 +72,21 @@ var run = function (command, args) {
             args: _get_shout(args),
             emit:true
         };
+    } else if (command == "/?" || command == "/help") {
+        return {
+            type: "emit",
+            args: usage(),
+            emit: true
+        };
     }
 };
+
 
 /* Exports */
 exports.list = commands;
 exports.run = run;
 exports.isCommand = is_command;
+exports.usage = usage;
 
 /* Constants */
 exports.WELCOME = WELCOME;
