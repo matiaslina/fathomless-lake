@@ -4,6 +4,7 @@ var commands = [
     "/welcome",
     "/nowelcome",
     "/img",
+    "/url",
     "/shout",
     "/?",
     "/help"
@@ -16,6 +17,10 @@ function _get_image_href (url) {
     return '<a href="'+url+'"><img class="chat-img" src='+url+' alt="" /></a>';
 };
 
+function _get_href (url) {
+    return '<a href="'+url+'" target="blank">'+url+'</a>';
+};
+
 function _get_shout (str) {
     return '<h2 style="color: #AA0606;">' + str + '</h2>';
 };
@@ -25,6 +30,7 @@ var usage = function () {
            "<i>/?, /help</i> : print this info </br>" +
            "<i>/shout [string]</i> : says something louder </br>" +
            "<i>/img [url]</i> : prints an image into the chat </br>" +
+           "<i>/url [url]</i> : prints a link </br>" +
            "<i>/welcome</i> : sets a welcome message </br>" +
            "<i>/nowelcome</i> : unset the welcome usage";
             
@@ -63,6 +69,13 @@ var run = function (command, args) {
         return {
             type: "emit",
             args: _get_image_href(url),
+            emit: true
+        };
+    } else if (command == "/url") {
+        var url = args[0];
+        return {
+            type: "emit",
+            args: _get_href (url),
             emit: true
         };
     } else if (command == "/shout") {
