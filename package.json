@@ -9,6 +9,7 @@
     "express": "3.1.2",
     "ejs": "*",
     "socket.io": "0.9.16",
-    "request": "*"
+    "request": "*",
+    "firebase": "0.5.4"
   }
 }

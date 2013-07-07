@@ -9,9 +9,12 @@ var express = require('express')
     , commands = require ('./libs/commands')
     , http = require('http')
     , path = require('path')
-    , request = require ('request');
+    , request = require ('request')
+    , Firebase = require ('firebase');
 
-
+// Firebase root
+var firebase_root = new Firebase('https://fathomless-lake.firebaseio.com/'),
+    firebase_chat = firebase_root.child ('chat');
 var app = express();
 var main_problem = {};
 var welcome_message = undefined;
@@ -58,6 +61,24 @@ io.configure(function () {
 io.sockets.on('connection', function (socket) {
 
     socket.on ('conn', function (data) {
+        // Get data from the chat.
+        var fb_chat = firebase_chat.child(get_current_date())
+        fb_chat.once('value', function (snap) {
+            var prev_messages = "";
+            var values = snap.val();
+            console.log (values);
+            for (var k in values) {
+                prev_messages += '<div style="color: #555;">' + 
+            values[k].author + ": " + values[k].message +
+            '</div>';
+            }
+            if (prev_messages != "") {
+                socket.emit ('message', {
+                    author: "Previous Messages",
+                    message: prev_messages
+                });
+            }
+        });
         socket.emit('message', { 
             message: data.username + ', Welcome to the chat' 
         });
@@ -80,6 +101,7 @@ io.sockets.on('connection', function (socket) {
                 message: welcome_message
             });
         }
+
         
         socket.emit ('new code', {
             code: code.Code.getCode()
@@ -88,9 +110,17 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on ('send', function (data) {
         var com;
-        if ((com = commands.isCommand (data.message)) == false)
+        if ((com = commands.isCommand (data.message)) == false){
             io.sockets.emit ('message', data);
-        else {
+            // Store the data into the chat of today.
+            var today = get_current_date();
+            firebase_chat.child(today)
+                         .child (Date.now())
+                         .set ({
+                             author: data.author,
+                             message:data.message
+                         });
+        } else {
             var ret = commands.run (com[0], com[1]);
             if (ret.type == commands.WELCOME) {
                 welcome_message = ret.args;
@@ -136,3 +166,8 @@ io.sockets.on('connection', function (socket) {
         });
     });
 });
+
+function get_current_date () {
+    var d = new Date();
+    return d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+};
