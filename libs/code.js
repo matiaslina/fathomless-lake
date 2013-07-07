@@ -1,7 +1,15 @@
+// Firebase code
+ var Firebase = require ('firebase'),
+    firebase_root = new Firebase('https://fathomless-lake.firebaseio.com/'),
+    firebase_code = firebase_root.child ('code');
 var code = {
     code: "",
     setCode: function (str) {
         this.code = _replace(str, true);
+        firebase_code.set ({ 
+            code: this.code,
+            language: "C"
+        });
     },
     getRawCode: function () {
         return _replace (this.code, false);

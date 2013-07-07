@@ -15,7 +15,8 @@ var express = require('express')
 // Firebase root
 var firebase_root = new Firebase('https://fathomless-lake.firebaseio.com/'),
     firebase_chat = firebase_root.child ('chat'),
-    firebase_problem = firebase_root.child('problem');
+    firebase_problem = firebase_root.child('problem'),
+    firebase_code = firebase_root.child ('code');
 var app = express();
 var main_problem = {};
 var welcome_message = undefined;
@@ -67,7 +68,6 @@ io.sockets.on('connection', function (socket) {
         fb_chat.once('value', function (snap) {
             var prev_messages = "";
             var values = snap.val();
-            console.log (values);
             for (var k in values) {
                 prev_messages += '<div style="color: #555;">' + 
             values[k].author + ": " + values[k].message +
@@ -97,7 +97,6 @@ io.sockets.on('connection', function (socket) {
                 });
             }
         });
-        console.log ("Welcome message: " + welcome_message);
         
         if (welcome_message != undefined) {
             socket.emit ('message', {
@@ -106,9 +105,12 @@ io.sockets.on('connection', function (socket) {
             });
         }
 
-        
-        socket.emit ('new code', {
-            code: code.Code.getCode()
+        firebase_code.on ('value', function (data) {
+            if (data.val() !== null) {
+                socket.emit ('new code', {
+                    code: data.val().code
+                });
+            }
         });
 
     });
