@@ -61,87 +61,106 @@ function compiler (source) {
 
 };
 
-function Test () {
+var Test = function () {
     this.tests = [];
     this.executable = undefined;
     this.passed_test = [];
     this.finished = false;
-    this.__proto__ = events.EventEmitter.prototype;
-
-    this.store = function () {
-        if (this.finished) {
-            fb_tester.set ({
-                count: this.tests.length,
-                executable: this.executable,
-                test: this.tests,
-                passed_test: this.passed_test
-            });
-        }
-    };
-
-    this.add = function (_n, _input, _output) {
-        this.tests.push ({
-            number: _n,
-            input: _input,
-            output: _output
-        });
-        this.passed_test.push(false);
-    };
-    this.clean_all = function () {
-        this.tests = [];
-        this.executable = undefined;
-        this.passed_test = [];
-    };
-
-    this.clean_io = function () {
-        this.passed_test = [];
-    };
+    this.timeout = 2;
     
-    var exec_command = function (command,test) {
-        var cmd = exec (command);
-        console.log ("[" + cmd.pid + "] Running child process " + command);
-        cmd.stdout.on ('data', function (data) {
-            this.emit ('stdout', data, test);
+    this.add = function (n, input, output) {
+        var self = this;
+        self.tests.push ({
+            number: n,
+            input: input,
+            output: output
         });
+        self.passed_test.push(false);
+    }
+}
+Test.__proto__ = events.EventEmitter.prototype;
 
-        cmd.on ('exit', function (code, signal) {
-            console.log("[" + cmd.pid + "] Program terminated with code " + code +
-                        " And signal " + signal );
+Test.prototype.clean_all = function () {
+    var self = this;
+    // clean the executable.
+    self._exec("rm " + self.executable);
+    self.tests = [];
+    self.executable = undefined;
+    self.passed_test = [];
+    self.finished = false;
+}
+
+Test.prototype.clean_io = function () {
+    var self = this;
+    self.passed_test = [];
+}
+
+Test.prototype._exec = function (command,test) {
+    var out = "";
+    var self = this;
+    var cmd = exec (command);
+    console.log ("[" + cmd.pid + "] Running child process " + command);
+    console.log ("Trying to get the output");
+    cmd.stdout.on ('data', function (data) {
+        console.log ("Output -> " + data);
+        out = data;
+    });
+    setTimeout (function () {
+        if (out != "") {
+            self.set_passed_tests (out, test);
+        } else {
+            console.log ("[Timeout Error] Cannot get the output");
+        }   
+    }, self.timeout * 1000);
+
+    cmd.on ('exit', function (code, signal) {
+        // nothing
+    });
+}
+
+Test.prototype.set_passed_tests = function (data, test) {
+    console.log (test);
+    this.passed_test[test.number] = (data == test.output);
+    this.finished = (this.passed_test.length == this.tests.length);
+}
+
+Test.prototype.run = function () {
+    for (i=0; i < this.tests.length; i++) {
+        console.log ("Running test n " + i);
+        var command = 'echo "'+this.tests[i].input+'" | ./'+this.executable;
+        this._exec(command, this.tests[i]);
+    }
+
+    var timeout = true;
+    for (var i = 0; i < 10 ; i++) {
+        setTimeout (this.store, 3000);
+    };
+    if (timeout)
+        console.log ("[Timeout Error] Cannot store the data in firebase,"+
+                     "The run function haven't finish");
+}
+
+Test.prototype.store = function () {
+    if (this.finished) {
+        fb_tester.set ({
+            count: this.tests.length,
+            executable: this.executable,
+            test: this.tests,
+            passed_test: this.passed_test
         });
-    };
-
-    this.run = function () {
-        for (i=0; i < this.tests.length; i++) {
-            console.log ("Running test n " + i);
-            var command = 'echo "'+this.tests[i].input+'" | ./'+this.executable;
-            exec_command (command, this.tests[i]);
-        }
-
-        var timeout = true;
-        for (var i = 0; i < 10 ; i++) {
-            setTimeout (this.store, 1000);
-        };
-        if (timeout)
-            console.log ("[Timeout Error] Cannot store the data in firebase,"+
-                         "The run function haven't finish");
-    };
-
-    this._on_stdout_cb = function (data, test) {
-        console.log(this);
-        this.passed_test[test.number] = (data == test.output);
-        this.finished = (this.passed_test.length == this.tests.length);
-    };
-    this.on ('stdout', this._on_stdout_cb);
+    }
 };
+
+
 
 /* Exports */
 exports.Compiler = compiler;
-exports.Test = Test;
+exports.Test = Test.__proto__;
 
 /* Main 
  * This is just a test to check if this actualy works. 
  * (Don't run in the app */
-
+console.log (Test);
 lucky = new compiler('lucky.c');
 lucky.compile();
 setTimeout (function () {
@@ -150,6 +169,7 @@ setTimeout (function () {
     test = new Test();
     /* Set the executable */
     test.executable = "myex";
+    console.log (test);
     /* Add a test */
     test.add (0,'2','3');
     /* Run the test */
@@ -157,5 +177,7 @@ setTimeout (function () {
     /* Wait a little */
     setTimeout ((function () {
         console.log ("passed test: " + test.passed_test);
+        console.log ("Cleaning all");
+        test.clean_all ();
     }), 5000);
 },2000);
