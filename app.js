@@ -41,9 +41,12 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/code', routes.index);
-app.get("/", routes.index );
-app.post('/register', routes.new_username);
+app.get ('/login', routes.login);
+app.post('/register', routes.register_normal);
+app.get ('/register', routes.register_github);
+app.post('/auth/github', routes.auth_github);
+app.get ('/', routes.index );
+app.get ('/code', routes.index);
 app.get ('/new_code', routes.code_submit);
 
 
