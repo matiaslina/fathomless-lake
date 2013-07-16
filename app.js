@@ -54,9 +54,9 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = require("socket.io").listen(server);
 
 // assuming io is the Socket.IO server object
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
   io.set ('log level', 1);
 });
 
@@ -69,7 +69,7 @@ io.sockets.on('connection', function (socket) {
             var prev_messages = "";
             var values = snap.val();
             for (var k in values) {
-                prev_messages += '<div style="color: #555;">' + 
+                prev_messages += '<div style="color: #555;">' +
             values[k].author + ": " + values[k].message +
             '</div>';
             }
@@ -80,24 +80,24 @@ io.sockets.on('connection', function (socket) {
                 });
             }
         });
-        socket.emit('message', { 
-            message: data.username + ', Welcome to the chat' 
+        socket.emit('message', {
+            message: data.username + ', Welcome to the chat'
         });
 
-        socket.broadcast.emit("message", { 
+        socket.broadcast.emit("message", {
             message: data.username + " is connected"
         });
-        
+
         firebase_problem.once('value', function(data) {
             if (data.val() !== null) {
                 var main_problem = data.val();
                 socket.emit ('new problem', {
-                    problem: main_problem.html, 
+                    problem: main_problem.html,
                     url: main_problem.url
                 });
             }
         });
-        
+
         if (welcome_message != undefined) {
             socket.emit ('message', {
                 author: "Message of the day",
@@ -139,7 +139,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
     });
-    
+
     socket.on ('submit problem', function (data) {
         request (data.url, function (error, res, body) {
             if (! error) {
@@ -161,7 +161,7 @@ io.sockets.on('connection', function (socket) {
             }
         });
     });
-    
+
     /* When someone submit a new code */
     socket.on ('code submitted', function (data) {
         code.Code.setCode (data.code);
