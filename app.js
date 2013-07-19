@@ -18,9 +18,8 @@ var firebase_root = new Firebase('https://fathomless-lake.firebaseio.com/'),
     firebase_problem = firebase_root.child('problem'),
     firebase_code = firebase_root.child ('code');
 var app = express();
+// do I need this? :/
 var main_problem = {};
-var welcome_message = undefined;
-
 
 // all environments
 app.set('port', process.env.PORT || 3000);
