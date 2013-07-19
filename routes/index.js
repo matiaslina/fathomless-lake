@@ -149,31 +149,26 @@ exports.create_gist_logic = function (req, res) {
             id: gist.id,
             description: gist.description,
             url: gist.html_url,
+            codeName: req.body.code_name
         });
     });
     res.redirect ("/");
 }
 exports.update_gist_form = function (req, res) {
-    if (req.session.gist_id) {
-        res.render ("update-gist",{
-            id: req.session.gist_id
-        });
-        return;
-    } else {
-        console.log("Searching in firebase!");
-        firebase_github.once ('value', function (data) {
-            console.log (data.val());
-            if (data.val() !== null) {
-                var gist = data.val();
-                req.session.gist_id = gist.id;
-                ID: gist.id;
-                res.render ("update-gist",{
-                    id: gist.id
-                });
-                return;
-            }
-        });
-    }
+    console.log("Searching in firebase!");
+    firebase_github.once ('value', function (data) {
+        console.log (data.val());
+        if (data.val() !== null) {
+            var gist = data.val();
+            req.session.gist_id = gist.id;
+            ID: gist.id;
+            res.render ("update-gist",{
+                id: gist.id,
+                code_name: gist.codeName
+            });
+            return;
+        }
+    });
 };
 
 exports.update_gist_logic = function (req, res) {

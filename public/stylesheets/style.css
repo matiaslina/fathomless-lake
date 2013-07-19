@@ -1,6 +1,5 @@
 a {
   color: #0C3566;
-  font-style: none;
   margin: 1px;
   font-weight: bold;
 }
@@ -67,9 +66,6 @@ header h1 {
     overflow-y: auto;
     overflow-x: hidden;
     white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
     word-wrap: break-word;
     padding: 8px !important;
 }
@@ -92,7 +88,7 @@ header h1 {
     width: 88%;
 }
 
-#code-view {
+#gists {
     margin-top: 15px;
     background-color: #eee;
     padding: 10px;

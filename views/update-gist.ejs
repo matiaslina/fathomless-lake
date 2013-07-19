@@ -5,22 +5,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-
-    <style>
-        body {
-            padding: 50px;
-            color: #eee;
-        }
-    </style>
-
+    <link rel="stylesheet" href="/stylesheets/gists_form.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js" language="javascript"></script>
+    <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js" language="javascript"></script>
+    <script src='/javascripts/tooltip.js'> </script>
   </head>
   <body>
     <p>Update a gist!</p>
     <form method="post" action="/update_gist">
         <input type="hidden" name="id" value="<%= id %>" />
-        <span>Gist Name</span><input type="text" name="code_name" />
-        <span>Description</span><textarea name="description"></textarea>
-        <textarea name="code"></textarea>
+        <span>Gist Name</span>
+        <input type="text" name="code_name" title="You must set the type of the file. for example: main.c will be a C source file" value="<%= code_name %>"/>
+        <span>Description</span>
+        <textarea name="description" cols="78" rows="2"></textarea>
+        <textarea name="code" cols="78" rows="23"></textarea>
 
         <input type="submit" value="Submit" id="code_submit">
     </form>
