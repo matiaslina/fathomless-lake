@@ -34,27 +34,36 @@
 
                     <div id="codeforces">
                     </div>
-                    <span><u><i>URLe</i></u></span>
+                    <span><u><i>URL</i></u></span>
                     <input id="new_problem">
                     <input type="button" id="submit_problem" value="Buscar">
                 </div>
 
 
+                <div id="gists" style="background-color: #eee; border-radius:8px;">
+                    <h2><u><i>Code</i></u></h2>
+                    <div id="gist-code">
+                        <script src="https://gist.github.com/matiaslina/<%=gist_id%>.js"></script>
+                    </div>
+                    <a href="/create_gist" target="blank" style="margin: 7px;">Create a gist!</a>
+                    <a href="/update_gist" target="blank" style="margin: 7px;">Update gist!</a>
+                </div>
 
-
-
+            </div>
+<!--
                 <div id="code-view" style="background-color: #eee; border-radius: 8px;">
                     <h2><u><i>Code</i></u></h2>
                     <pre id="code_pre" name="code" class="cpp">
                     </pre>
 
-                <a href="/new_code" target="blank" style="margin: 7px;">Change the code!</a>
-            </div>
+                    <a href="/new_code" target="blank" style="margin: 7px;">Change the code!</a>
+                </div>
 
-        </div>
-        <script language="javascript">
-            dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';
-            dp.SyntaxHighlighter.HighlightAll ('code');
-        </script>
-    </body>
-</html>
+            </div>
+            <script language="javascript">
+                dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/highlighter/clipboard.swf';
+                dp.SyntaxHighlighter.HighlightAll ('code');
+            </script>
+            -->
+        </body>
+    </html>

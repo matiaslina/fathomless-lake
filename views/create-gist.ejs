@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            padding: 50px;
+            color: #eee;
+        }
+    </style>
+
+  </head>
+  <body>
+    <p>Create a gist!</p>
+    <form method="post" action="/create_gist">
+        <span>Gist Name</span><input type="text" name="code_name" />
+        <span>Description</span><textarea name="description"></textarea>
+        <textarea name="code"></textarea>
+
+        <input type="submit" value="Submit" id="code_submit">
+    </form>
+  </body>
+</html>

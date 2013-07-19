@@ -18,8 +18,8 @@ var firebase_root = new Firebase('https://fathomless-lake.firebaseio.com/'),
     firebase_problem = firebase_root.child('problem'),
     firebase_code = firebase_root.child ('code');
 var app = express();
-// do I need this? :/
 var main_problem = {};
+var welcome_message = "";
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -43,11 +43,15 @@ if ('development' == app.get('env')) {
 app.get ('/login', routes.login);
 app.post('/register', routes.register_normal);
 app.get ('/register', routes.register_github);
-app.post('/auth/github', routes.auth_github);
+app.get('/auth/github', routes.auth_github);
 app.get ('/', routes.index );
 app.get ('/code', routes.index);
-app.get ('/new_code', routes.code_submit);
 
+/* Gist !! */
+app.get ('/create_gist', routes.create_gist_form);
+app.post ('/create_gist', routes.create_gist_logic);
+app.get ('/update_gist', routes.update_gist_form);
+app.post ('/update_gist', routes.update_gist_logic);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
