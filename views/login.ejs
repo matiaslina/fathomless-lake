@@ -3,7 +3,6 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href="/stylesheets/highlighter/SyntaxHighlighter.css"/>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script src='/socket.io/socket.io.js'> </script>
@@ -14,15 +13,25 @@
             padding: 50px;
             color: #eee;
         }
+
+        .github-button {
+            padding: 10px;
+            background-color: #101010;
+            color: #dfdfdf;
+            border-radius: 10px;
+        }
     </style>
 
   </head>
   <body>
-    <p>Ponga su nombre de usuario:</p>
+      
+    <h4>Enter your username:</h4>
     <form action="/register" method="post">
         <input name="new_username" />
         <input name="type" type="submit" value="Login">
     </form>
-    <a href="/register">Github!</a>
+    </br>
+    <h4>Or login with an existing account</h4> 
+    <a class="github-button" href="/register">Login with Github!</a>
   </body>
 </html>

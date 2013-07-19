@@ -72,7 +72,7 @@ exports.index = function(req, res){
 exports.login = function (req, res) {
     if (req.session != undefined && req.session.auth_token)
         res.redirect("/");
-    res.render ("username", {title:""});
+    res.render ("login", {title:""});
 };
 
 exports.auth_github = function (req, res) {
