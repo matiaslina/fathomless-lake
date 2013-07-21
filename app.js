@@ -5,6 +5,7 @@
 
 var express = require('express')
     , routes = require('./routes')
+    , dashboard = require ('./routes/dashboard')
     , code = require ('./libs/code')
     , commands = require ('./libs/commands')
     , http = require('http')
@@ -46,6 +47,8 @@ app.get ('/register', routes.register_github);
 app.get('/auth/github', routes.auth_github);
 app.get ('/', routes.index );
 app.get ('/code', routes.index);
+
+app.get ('/dashboard', dashboard.index);
 
 /* Gist !! */
 app.get ('/create_gist', routes.create_gist_form);

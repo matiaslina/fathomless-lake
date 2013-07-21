@@ -12,6 +12,7 @@
     "socket.io": "0.9.16",
     "request": "*",
     "firebase": "0.5.4",
-    "github": "*"
+    "github": "*",
+    "oauth": "*"
   }
 }

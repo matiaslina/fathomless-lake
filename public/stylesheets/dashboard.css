@@ -1,0 +1,50 @@
+.center {
+    background-color: #eee;
+    width: 82% !important;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 8px;
+}
+
+.title {
+    color: #711;
+}
+
+.dlist {
+    list-style: none;
+}
+
+.dlist a {
+    margin: 0;
+    text-decoration: none;
+    color: #111;
+    font-weight: normal;
+
+}
+
+.proyect {
+    border-radius: 15px;
+    padding: 6px;
+    box-shadow: 0px 0px 3px 3px #aaa;
+    transition: all 0.5s linear;
+    margin-bottom: 25px;
+    margin-right: 50px;
+}
+
+.proyect:hover {
+    background-color: #ddd;
+    box-shadow: 0px 0px 3px 3px #777;
+}
+
+.proyect h2 {
+    font-size: 18px;
+    font-style:italic;
+    margin: 0;   
+}
+
+.proyect p {
+    font-size: 14px;
+}
